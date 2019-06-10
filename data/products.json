@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "name": "Espresso",
+    "description": "Výborná italská silná káva.",
+    "price": 39,
+    "category_id": 1,
+    "picture": "espresso.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Ristretto",
+    "description": "Espresso s malým objemem vody.",
+    "price": 39,
+    "category_id": 1,
+    "picture": "ristretto.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Cortado",
+    "description": "Espresso zjemněné mléčnou mikropěnou.",
+    "price": 45,
+    "category_id": 1,
+    "picture": "cortado.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Cappuccino",
+    "description": "Espresso s našlehanou mléčnou pěnou.",
+    "price": 60,
+    "category_id": 1,
+    "picture": "cappuccino.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Flat White",
+    "description": "Dvojité espresso s mléčnou pěnou.",
+    "price": 67,
+    "category_id": 1,
+    "picture": "flat-white.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Caffé Latte",
+    "description": "Espresso s teplým mlékem a pěnnou na povrchu.",
+    "price": 55,
+    "category_id": 1,
+    "picture": "latte.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Borůvkový cupcake",
+    "description": "Cupcake přelitý smetanou a posypaný borůvkami a čokoládou.",
+    "price": 60,
+    "category_id": 2,
+    "picture": "boruvkovy-cupcake.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Čokoládový dort",
+    "description": "Čokoládová exploze ozbobená čerstvými jahodami.",
+    "price": 79,
+    "category_id": 2,
+    "picture": "cokoladovy-dort.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Jahodový eclair",
+    "description": "Dortík z listového těsta plněný šlehačkou a jahodami.",
+    "price": 45,
+    "category_id": 2,
+    "picture": "jahodovy-eclair.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Karamelový dosrtík",
+    "description": "Čokoládová crusta plněná horkým karamelovým krémem.",
+    "price": 62,
+    "category_id": 2,
+    "picture": "karamelovy-dortik.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Palačinka s ovocem",
+    "description": "Palačinka s javorovým sirupem, ovocem a šlehačkou.",
+    "price": 71,
+    "category_id": 2,
+    "picture": "palacinka-s-ovocem.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Třešňový koláč",
+    "description": "Domácí třešňový koláč jako od babičky.",
+    "price": 49,
+    "category_id": 2,
+    "picture": "tresnovy-kolac.jpg"
+  }
+]

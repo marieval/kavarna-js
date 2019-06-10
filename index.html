@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kávový domeček</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <h1 class="logo">Kávový domeček</h1>
+  </header>
+
+  <!-- seznam produktů -->
+  <div class="products" id="products">
+
+    <!-- název kategorie -->
+    <!--
+    <h2 class="products__category">Káva</h2>
+    -->
+
+    <!-- seznam produktů v kategorii -->
+    <!--
+    <div class="products__list">
+
+      <div class="product">
+        <div class="product__image">
+          <img src="images/espresso.jpg" alt="Espresso">
+        </div>
+        <div class="product__body">
+          <div class="product__content">
+            <h3 class="product__name">Espresso</h3>
+            <p class="product__desc">
+              Výborná italská silná káva.
+            </p>
+          </div>
+          <div class="product__order">
+            <div class="product__price">
+              49 Kč
+            </div>
+            <div class="product__order-button">
+              <button class="button button--primary">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    -->
+
+  </div>
+
+  <!-- přehled objednávky -->
+  <div class="order">
+
+    <div class="order__title">
+      Vaše objednávka
+    </div>
+
+    <div class="order__content" id="order">
+
+      <!-- když je objednávka prázdná -->
+      <!--
+      <p class="order__empty">
+        Vaše objednávka je zatím prázdná :(
+        </p>
+      -->
+
+      <!-- když v objednávce něco je -->
+      <!--
+      <div class="order__item">
+        <div class="order__item-name">2× Cappuccino</div>
+        <button class="count-button count-button--plus">+</button>
+        <button class="count-button count-button--minus">-</button>
+      </div>
+      -->
+    </div>
+
+    <!-- podle toho, zda je objednávka prázdná, přidej/odeber tlačítku třídu hidden -->
+    <button class="button button--primary button--order hidden" id="order-btn">OBJEDNAT</button>
+
+  </div>
+
+  <script src="dist/app.bundle.js"></script>
+</body>
+</html>

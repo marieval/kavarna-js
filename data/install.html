@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Install Data</title>
+    <style>
+      body {
+        font: 16px/1.5 sans-serif;
+      }
+      #log {
+        background-color: #f5f5f5;
+        border: 1px solid #c5c5c5;
+        padding: 20px;
+        font: 16px/1.3 monospace;
+      }
+      .warning {
+        display: none;
+        padding: 20px;
+        color: red;
+        border: 1px solid red;
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Instalace dat na server</h1>
+
+    <p class="warning">
+      Nezapomeň doplnit svoje jméno na <strong>řádku 49</strong> v souboru
+      <strong>/data/install.html</strong><br /><br />
+      Původní:<br />
+      const NAME = '<strong>XXXXX</strong>';<br /><br />
+      Nahraď např. za:<br />
+      const NAME = '<strong>lucka-novakova</strong>';
+    </p>
+
+    <button onclick="instalovat()">Instalovat data na server</button>
+    <button onclick="smazat()">Smazat všechna data</button>
+
+    <pre id="log"></pre>
+
+    <script>
+      /* ************************************** */
+      /* TOTO ZMEN NA SVOJE JMENO               */
+      /* např. const NAME = 'lucka-novakova';   */
+      /* ************************************** */
+      const NAME = 'XXXXX';
+      /* ************************************** */
+
+      const API_BASE = `https://czechitas.twoways.cz/api/${NAME}`;
+
+      const logEl = document.querySelector('#log');
+
+      let categories, products;
+      let categoriesIdx, productsIdx;
+      let cats;
+
+      if (NAME === 'XXXXX') {
+        document.querySelector('.warning').style.display = 'block';
+        document.querySelectorAll('button').forEach(b => (b.disabled = true));
+      }
+
+      function instalovat() {
+        clearLog();
+        log(`INSTALUJI DATA NA SERVER`);
+        Promise.all([fetch('categories.json'), fetch('products.json')])
+          .then(response =>
+            Promise.all([response[0].json(), response[1].json()])
+          )
+          .then(data => {
+            categories = data[0];
+            products = data[1];
+            postCategories();
+          });
+      }
+
+      function postCategories() {
+        console.log(categories);
+        log(`\nKATEGORIE`);
+        if (categories.length > 0) {
+          categoriesIdx = 0;
+          postCategory();
+        } else {
+          log(`- prázdné`);
+          postProducts();
+        }
+      }
+
+      function postCategory() {
+        let category = categories[categoriesIdx];
+
+        log(`- ${category.name}`);
+
+        let data = {
+          name: category.name,
+          slug: category.slug
+        };
+
+        fetch(`${API_BASE}/categories`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(data)
+        }).then(() => {
+          categoriesIdx++;
+          if (categoriesIdx === categories.length) {
+            postProducts();
+          } else {
+            postCategory();
+          }
+        });
+      }
+
+      function postProducts() {
+        log(`\nPRODUKTY`);
+        if (products.length > 0) {
+          // get categories first so we can remap them
+          fetch(`${API_BASE}/categories`)
+            .then(res => res.json())
+            .then(data => {
+              cats = data;
+              console.table(cats);
+              productsIdx = 0;
+              postProduct();
+            });
+        } else {
+          log(`- prázdné`);
+          log('\n*** HOTOVO ***');
+        }
+      }
+
+      function postProduct() {
+        let product = products[productsIdx];
+
+        log(`- ${product.name}`);
+
+        let data = {
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          category_id: cats[product.category_id - 1].id,
+          picture: product.picture
+        };
+
+        fetch(`${API_BASE}/products`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(data)
+        }).then(() => {
+          productsIdx++;
+          if (productsIdx === products.length) {
+            log('\n*** HOTOVO ***');
+          } else {
+            postProduct();
+          }
+        });
+      }
+
+      function smazat() {
+        clearLog();
+        log(`MAŽU DATA ZE SERVERU`);
+        deleteProducts();
+      }
+
+      function deleteProducts() {
+        fetch(`${API_BASE}/products`)
+          .then(res => res.json())
+          .then(data => {
+            products = data;
+
+            log(`\nPRODUKTY`);
+            if (products.length > 0) {
+              productsIdx = 0;
+              deleteProduct();
+            } else {
+              log(`- už prázdné`);
+              deleteCategories();
+            }
+          });
+      }
+
+      function deleteProduct() {
+        log(`- ${products[productsIdx].name}`);
+
+        fetch(`${API_BASE}/products/${products[productsIdx].id}`, {
+          method: 'DELETE'
+        }).then(() => {
+          productsIdx++;
+          if (productsIdx === products.length) {
+            deleteCategories();
+          } else {
+            deleteProduct();
+          }
+        });
+      }
+
+      function deleteCategories() {
+        fetch(`${API_BASE}/categories`)
+          .then(res => res.json())
+          .then(data => {
+            categories = data;
+
+            log(`\nKATEGORIE`);
+            if (categories.length > 0) {
+              categoriesIdx = 0;
+              deleteCategory();
+            } else {
+              log(`- už prázdné`);
+              log('\n*** HOTOVO ***');
+            }
+          });
+      }
+
+      function deleteCategory() {
+        log(`- ${categories[categoriesIdx].name}`);
+
+        fetch(`${API_BASE}/categories/${categories[categoriesIdx].id}`, {
+          method: 'DELETE'
+        }).then(() => {
+          categoriesIdx++;
+          if (categoriesIdx === categories.length) {
+            log('\n*** HOTOVO ***');
+          } else {
+            deleteCategory();
+          }
+        });
+      }
+
+      function log(txt) {
+        logEl.textContent += txt + '\n';
+      }
+
+      function clearLog(txt) {
+        logEl.textContent = '';
+      }
+    </script>
+  </body>
+</html>
